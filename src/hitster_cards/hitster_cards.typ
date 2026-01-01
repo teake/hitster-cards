@@ -1,4 +1,4 @@
-#let songs = json("songs.json")
+#let songs = json(bytes(sys.inputs.songs))
 
 // edition if defined, otherwise empty
 #let edition = sys.inputs.at("edition", default:"")
@@ -43,7 +43,7 @@
     size: card_size,
     inset: 0.5cm,
     image(
-      "qr_codes/" + song.id + ".svg",
+      bytes(song.svg),
       width: 100%
     )
   )

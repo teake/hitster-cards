@@ -9,7 +9,10 @@ requires-python = ">= 3.12"
 dependencies = [
     "typst~=0.13.0",
     "spotipy~=2.25.1",
-    "qrcode~=8.0",
+    "qrcode[pil]~=8.0",
     "matplotlib~=3.10.1",
     "python-dotenv~=1.1.1",
 ]
+
+[project.scripts]
+hitster-cards = "hitster_cards.cli:main"

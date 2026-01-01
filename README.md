@@ -1,6 +1,8 @@
 # Hitster Card Generator
 
-This project generates printable [Hitster](https://hitstergame.com) cards from a Spotify playlist. It retrieves song information from Spotify, generates QR codes linking to the songs, and creates a duplex printable PDF with cards using [Typst](https://typst.app).
+This project generates printable [Hitster](https://hitstergame.com) cards from a Spotify playlist. It retrieves song
+information from Spotify, generates QR codes linking to the songs, and creates a duplex printable PDF with cards using
+[Typst](https://typst.app).
 
 If you find this DIY Hitster project useful, consider giving it a star :) !
 
@@ -25,9 +27,9 @@ If you find this DIY Hitster project useful, consider giving it a star :) !
 ## 🛠️ Setup
 
 1.  Clone the repository
-2.  Install dependencies using pip:
+2.  Install with pip or your favorite package manager:
     ```bash
-    pip install --editable .
+    pip install .
     ```
 3.  Set up Spotify API credentials:
     -   Create a Spotify Developer account and create an app to get your `CLIENT_ID` and `CLIENT_SECRET`.
@@ -42,12 +44,12 @@ If you find this DIY Hitster project useful, consider giving it a star :) !
 
 ## ▶️ Usage
 
-1.  Run the `main.py` script:
+1.  Run the script:
     ```bash
-    python main.py [playlist_id] [options]
+    hitster-cards [playlist_id] [options]
     ```
-2.  Print the `hitster.pdf` file:
-    -   Open the `hitster.pdf` file and duplex print it.
+2.  Print the `hitster-cards.pdf` file:
+    -   Open the `hitster-cards.pdf` file and duplex print it.
     -   Cut along the provided markings to create the Hitster cards.
 
 ## Command-Line Arguments (main.py)
@@ -74,7 +76,10 @@ If you find this DIY Hitster project useful, consider giving it a star :) !
 
 ---
 
-You can also use [openbeatster](https://github.com/schnitzelburger/openbeatster), a web application for scanning Spotify QR codes and playing tracks using the Spotify Web Playback SDK. With openbeatster, you can host the server on any device in your local network (such as a laptop or Raspberry Pi), control playback from your smartphone by scanning QR codes, and enjoy cross-device control from any device on the same network. This makes playing with these music cards even easier and more interactive!
+You can also use [openbeatster](https://github.com/schnitzelburger/openbeatster), a web application for scanning Spotify QR codes and playing tracks using the
+Spotify Web Playback SDK. With openbeatster, you can host the server on any device in your local network (such as a
+laptop or Raspberry Pi), control playback from your smartphone by scanning QR codes, and enjoy cross-device control from
+any device on the same network. This makes playing with these music cards even easier and more interactive!
 
 _Note: openbeatster is a companion project by a contributor to this repository._
 
