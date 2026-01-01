@@ -25,9 +25,9 @@ If you find this DIY Hitster project useful, consider giving it a star :) !
 ## 🛠️ Setup
 
 1.  Clone the repository
-2.  Install dependencies using Poetry:
+2.  Install dependencies using pip:
     ```bash
-    poetry install --no-root
+    pip install --editable .
     ```
 3.  Set up Spotify API credentials:
     -   Create a Spotify Developer account and create an app to get your `CLIENT_ID` and `CLIENT_SECRET`.
@@ -44,7 +44,7 @@ If you find this DIY Hitster project useful, consider giving it a star :) !
 
 1.  Run the `main.py` script:
     ```bash
-    poetry run python main.py [playlist_id] [options]
+    python main.py [playlist_id] [options]
     ```
 2.  Print the `hitster.pdf` file:
     -   Open the `hitster.pdf` file and duplex print it.
