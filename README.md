@@ -33,14 +33,14 @@ If you find this DIY Hitster project useful, consider giving it a star :) !
     ```
 3.  Set up Spotify API credentials:
     -   Create a Spotify Developer account and create an app to get your `CLIENT_ID` and `CLIENT_SECRET`.
-    -   Create a `.env` file in the project root with the following content:
+    -   Get a Gemini API key.
+    -   Set these environment variables manually in your shell:
         ```env
-        CLIENT_ID="your_client_id"
-        CLIENT_SECRET="your_client_secret"
-        PLAYLIST_ID="your_playlist_id"
+        SPOTIPY_CLIENT_ID="your_client_id"
+        SPOTIPY_SECRET="your_client_secret"
+        GEMINI_API_KEY="your_api_key"
         ```
     -   Alternatively, you can set these environment variables manually in your shell.
-    -   The script will automatically load variables from `.env` using python-dotenv.
 
 ## ▶️ Usage
 
@@ -59,11 +59,6 @@ If you find this DIY Hitster project useful, consider giving it a star :) !
 | playlist_id         | str       | $PLAYLIST_ID env var   | Spotify playlist ID (positional, optional; overrides env var) |
 | --cards-pdf         | str       | hitster-cards.pdf      | Output PDF filename for cards |
 | --overview-pdf      | str       | year-distribution.pdf  | Output PDF filename for year distribution bar chart |
-| --month-lang        | de/en     | system locale          | Language for month names in release dates |
-| --no-day            | flag      | False                  | Omit day from release date |
-| --qr-type           | url/id    | url                    | QR code content: url (default) or id |
-| --added-after       | str       | None                   | Only include songs added after this date (YYYY-MM-DD) |
-| -v, --verbose       | flag      | False                  | Enable verbose output (show each song) |
 
 ## 🎲 How to Play
 

@@ -7,11 +7,13 @@ name = "hitster-cards"
 version = "0.1.0"
 requires-python = ">= 3.12"
 dependencies = [
+    "click",
     "typst~=0.13.0",
     "spotipy~=2.25.1",
+    "requests",
     "qrcode[pil]~=8.0",
-    "matplotlib~=3.10.1",
-    "python-dotenv~=1.1.1",
+    "tqdm",
+    "matplotlib~=3.10.1"
 ]
 
 [project.scripts]
