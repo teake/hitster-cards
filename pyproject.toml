@@ -17,4 +17,4 @@ dependencies = [
 ]
 
 [project.scripts]
-hitster-cards = "hitster_cards.cli:main"
+hitster-cards = "hitster_cards.main:main"

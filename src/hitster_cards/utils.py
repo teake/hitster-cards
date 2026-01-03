@@ -6,11 +6,9 @@ import qrcode.image.svg
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
-from .models import DatedSong
 
-
-def generate_year_distribution_pdf(songs: list[DatedSong], output_pdf: str) -> None:
-    year_counts = Counter(int(song.year) for song in songs if song.year.isdigit())
+def generate_year_distribution_pdf(release_dates: list[str], output_pdf: str) -> None:
+    year_counts = Counter(int(release_date[:4]) for release_date in release_dates)
 
     min_year = min(year_counts.keys())
     max_year = max(year_counts.keys())
@@ -25,7 +23,6 @@ def generate_year_distribution_pdf(songs: list[DatedSong], output_pdf: str) -> N
     with PdfPages(output_pdf) as pdf:
         pdf.savefig()
         plt.close()
-
 
 def generate_qr_code(qr_content: str) -> str:
     img = qrcode.make(qr_content, image_factory=qrcode.image.svg.SvgPathImage)

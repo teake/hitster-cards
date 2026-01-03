@@ -82,25 +82,13 @@
           )
         ),
       ),
-      // Day and Month
-      block(
-        height: 0.1 * card_size,
-        width: 100%,
-        align(
-          center + horizon,
-          text(
-            [#song.day #song.month],
-            size: 0.06 * card_size
-          )
-        ),
-      ),
       // Year
       block(
         height: 0.2 * card_size,
         width: 100%,
         align(
           center + horizon,
-          fit_text_to_width(song.year, 0.85 * card_size, weight: "black")
+          fit_text_to_width(song.release_date.slice(0, 4), 0.85 * card_size, weight: "black")
         ),
       ),
       // Song Name

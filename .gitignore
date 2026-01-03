@@ -3,7 +3,6 @@ __pycache__/
 .idea
 .cache
 .env
-qr_codes
-songs.json
+*.json
 *.pdf
 *.egg-info/
