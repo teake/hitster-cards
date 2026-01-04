@@ -43,7 +43,7 @@ def main(playlist_id: str) -> None:
     random.seed("hitster")
     random.shuffle(song_data)
 
-    logger.info("Generating QR code.")
+    logger.info("Generating QR codes.")
     song_data = [{**song, "svg": generate_qr_code(song["url"])} for song in song_data]
 
     sys_inputs = {"songs": json.dumps(song_data)}
