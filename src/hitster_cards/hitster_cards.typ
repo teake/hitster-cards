@@ -1,8 +1,5 @@
 #let songs = json(bytes(sys.inputs.songs))
 
-// edition if defined, otherwise empty
-#let edition = sys.inputs.at("edition", default:"")
-
 // this is DIN A4
 #let page_width = 210mm
 #let page_height = 297mm
@@ -28,11 +25,7 @@
   )
 )
 
-// set font
-#set text(font: (
-  sys.inputs.at("font", default: "New Computer Modern"), // use input font or default
-  "New Computer Modern" // fallback if input font is invalid
-))
+#set text(font: "New Computer Modern")
 
 #set square(
   stroke: none
@@ -49,29 +42,14 @@
   )
 }
 
-/// Renders string `s` scaled to fit within `target_width`, with optional text options.
-/// Shows the scaled text, with a maximum font size of 28% of card size.
-#let fit_text_to_width(s, target_width, ..opts) = {
-  context {
-    let base = 10pt
-    let probe = text(size: base, ..opts)[#s]
-    let w = measure(probe).width
-    let ratio = if w == 0pt { 1 } else { target_width / w }
-    let fs = calc.min(base * ratio, 0.28 * card_size)
-    text(size: fs, ..opts)[#s]
-    //linebreak()
-    //text(size: 6pt)[#fs]
-  }
-}
-
 #let text_back_side(song) = {
   square(
     size: card_size,
-    inset: 0.05 * card_size,
+    inset: 0.1 * card_size,
     stack(
       // Artist
       block(
-        height: 0.25 * card_size,
+        height: 0.3 * card_size,
         width: 100%,
         align(
           center + horizon,
@@ -88,28 +66,23 @@
         width: 100%,
         align(
           center + horizon,
-          fit_text_to_width(song.release_date.slice(0, 4), 0.85 * card_size, weight: "black")
+          text(
+            weight: "black",
+            song.release_date.slice(0, 4),
+            size: 0.28 * card_size
+          )
         ),
       ),
       // Song Name
       block(
-        height: 0.35 * card_size,
+        height: 0.3 * card_size,
         width: 100%,
         align(
           center + horizon,
           text(
-            if ("custom" in song) and song.custom == "true" {[ #song.name ]} else {[_ #song.name _]},
+            {[_ #song.name _]},
             size: 0.06 * card_size
           )
-        )
-      ),
-      // Edition on bottom right corner (if defined)
-      align(
-        right + bottom,
-        text(
-          [ #edition ],
-          size: 0.04 * card_size,
-          fill: luma(35%)
         )
       )
     )
