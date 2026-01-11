@@ -20,9 +20,9 @@ If you find this DIY Hitster project useful, consider giving it a star :) !
 
 ## ⚙️ Prerequisites
 
--   Python ^3.12 
--   Poetry (for dependency management)  
+-   Python ^3.12
 -   Spotify Developer Account (to obtain client credentials)
+-   Google Gemini API key
 
 ## 🛠️ Setup
 
@@ -54,11 +54,11 @@ If you find this DIY Hitster project useful, consider giving it a star :) !
 
 ## Command-Line Arguments (main.py)
 
-| Argument            | Type      | Default                | Description |
-|---------------------|-----------|------------------------|-------------|
-| playlist_id         | str       | $PLAYLIST_ID env var   | Spotify playlist ID (positional, optional; overrides env var) |
-| --cards-pdf         | str       | hitster-cards.pdf      | Output PDF filename for cards |
-| --overview-pdf      | str       | year-distribution.pdf  | Output PDF filename for year distribution bar chart |
+| Argument    | Default              | Description                                                   |
+|-------------|----------------------|---------------------------------------------------------------|
+| playlist_id | $PLAYLIST_ID env var | Spotify playlist ID (positional, optional; overrides env var) |
+| --edition   |                      | Name to put on top of the QR codes                            |
+| --font      |                      | Font to use for the cards                                     |
 
 ## 🎲 How to Play
 
