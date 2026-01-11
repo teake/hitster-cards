@@ -1,4 +1,8 @@
+#import "@preview/one-liner:0.2.0": fit-to-width 
+#import "@preview/based:0.2.0": base64
+
 #let songs = json(bytes(sys.inputs.songs))
+#let edition = sys.inputs.at("edition", default: "")
 
 // this is DIN A4
 #let page_width = 210mm
@@ -25,21 +29,51 @@
   )
 )
 
-#set text(font: "New Computer Modern")
+// set font
+#set text(font: (
+  sys.inputs.at("font", default: "New Computer Modern"), // use input font or default
+  "New Computer Modern" // fallback if input font is invalid
+))
 
 #set square(
   stroke: none
 )
 
 #let qr_front_side(song) = {
+  let qr_code = base64.decode(song.qr_code)
+  let qr_size = 102% / calc.sqrt(2)
+  let qr_image = image(qr_code, width: qr_size)
+  let qr_padding_height = qr_size * 1/2 * (1 + calc.rem(song.qr_width, 2) / song.qr_width) 
+  let qr_padding_image = box(clip: true, width: qr_size, height: qr_padding_height, image(qr_code, width: 100%))
+  let qr_padding_shift = qr_size / 2 + qr_padding_height / 2
   square(
     size: card_size,
-    inset: 0.5cm,
-    image(
-      bytes(song.svg),
-      width: 100%
-    )
-  )
+    inset: 0.65cm
+  )[
+    #place(center + horizon, circle(width: 105%))
+    #place(center + horizon, circle(width: 100%))
+    #box(clip: true, radius: 50%,
+        width: 100%, height: 100%
+    )[
+        #place(center + horizon, dy: +qr_padding_shift, rotate(180deg, qr_padding_image))
+        #place(center + horizon, dy: -qr_padding_shift, rotate(0deg, qr_padding_image))
+        #place(center + horizon, dx: +qr_padding_shift, rotate(90deg, qr_padding_image))
+        #place(center + horizon, dx: -qr_padding_shift, rotate(-90deg, qr_padding_image))
+        #place(center + horizon, qr_image))
+    ]
+    #if edition != "" [
+        #place(
+            center + horizon,
+            circle(
+                width: 35%, 
+                inset: 0pt, 
+                fill: white,
+                stroke: 1pt, 
+                fit-to-width(text(weight: "black", upper(edition)))
+            )
+        )
+    ]
+  ]
 }
 
 #let text_back_side(song) = {

@@ -1,8 +1,8 @@
+import json
 import re
 import time
 from collections.abc import Iterable
 from dataclasses import asdict
-from textwrap import dedent
 
 import requests
 from google import genai
@@ -17,25 +17,13 @@ def date_song(song: Song) -> DatedSong | None:
     return DatedSong(**asdict(song), release_date=release_date)
 
 def get_release_date(song: Song) -> str | None:
-    if not (release_dates := list(get_release_dates_musicbrainz(song.isrc))):
-        release_dates += list(get_release_dates_gemini(song.name, ", ".join(song.artists)))
+    release_dates = list(get_release_dates_musicbrainz(song.isrc))
     release_dates += list(get_release_dates_spotify(song.isrc))
     if release_dates:
         return sorted(release_dates)[0]
     else:
         return None
 
-def get_release_dates_gemini(song_title, artist) -> Iterable[str]:
-    client = genai.Client()
-    query = f"""
-        What is the original first release date of the song '{song_title}' by the artist {artist}? 
-        Respond with only the year in the format YYYY. If you are not 100% sure, respond with 'I dont know'.
-    """
-    response = client.models.generate_content(model="gemini-3-flash-preview", contents=dedent(query).strip())
-    if re.match(r"^\d{4}$", response.text):
-        return [response.text]
-    else:
-        return []
 
 def get_release_dates_musicbrainz(isrc: str, offset: int = 0, retries: int = 0) -> Iterable[str]:
     if retries > 3:
@@ -61,3 +49,54 @@ def get_release_dates_musicbrainz(isrc: str, offset: int = 0, retries: int = 0) 
             yield recording["first-release-date"]
     if data["count"] > (offset + 1) * 100:
         yield from get_release_dates_musicbrainz(isrc, offset=offset + 1, retries=0)
+
+
+def correct_release_dates_gemini(songs: Iterable[DatedSong]) -> Iterable[DatedSong]:
+    songs = [DatedSong(**asdict(song)) for song in songs]
+    client = genai.Client()
+    payload = [
+        {
+            "artists": song.artists,
+            "name": song.name,
+            "release_date": song.release_date[:4]
+        }
+        for song in songs
+    ]
+    query = f"""
+        Check if the original release dates of the following songs are correct. 
+        Return only those songs if whose release date is incorrect, and only the year,
+        not the full date. Return in JSON and no other text, and omit the triple Markdown quotes.
+        If you are unsure about a song, skip it.
+        ```
+        {json.dumps(payload, indent=2)}
+        ```
+    """
+    response = client.models.generate_content(model="gemini-3-flash-preview", contents=query.strip())
+    try:
+        response_data = json.loads(response.text)
+    except json.decoder.JSONDecodeError:
+        return
+    if not isinstance(response_data, list):
+        return
+    for response_song in response_data:
+        if not isinstance(response_song, dict):
+            continue
+        if not "artists" in response_song or not "name" in response_song or not "release_date" in response_song:
+            continue
+        if not re.match(r"^\d{4}$", response_song["release_date"]):
+            continue
+        for song in songs:
+            if song.name == response_song["name"] and song.artists == response_song["artists"]:
+                song.release_date = response_song["release_date"]
+                yield song
+
+
+def correct_release_dates(songs: Iterable[DatedSong], corrections: Iterable[DatedSong]) -> Iterable[DatedSong]:
+    for song in songs:
+        to_yield = song
+        for corrected_song in corrections:
+            if song.name == corrected_song.name and song.artists == corrected_song.artists:
+                to_yield = corrected_song
+                break
+        yield to_yield
+

@@ -18,11 +18,19 @@ SUFFIXES_TO_REMOVE = [
     r" - Mono( Version)?$",
     r" - Acoustic( Version)?$",
     r" - Edit$",
+    r" - \(Original\)$",
 ]
 
 @cache
 def spotify_client():
     return spotipy.Spotify(auth_manager=spotipy.SpotifyClientCredentials())
+
+
+def get_playlist_name(playlist_id: str) -> str:
+    sp = spotify_client()
+    playlist = sp.playlist(playlist_id)
+    return playlist["name"]
+
 
 def get_playlist_songs(playlist_id: str) -> Iterable[Song]:
     sp = spotify_client()
