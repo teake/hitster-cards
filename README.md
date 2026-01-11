@@ -13,10 +13,10 @@ If you find this DIY Hitster project useful, consider giving it a star :) !
 ## ✨ Features
 
 -   Spotify Integration: Fetches song details directly from a Spotify playlist.
+-   Double-check release dates with MusicBrainz and Google Gemini.
 -   QR Code Generation: Creates QR codes for each song, linking to its Spotify URL.
 -   Printable Cards: Generates a PDF with formatted cards, ready for printing.
 -   Configurable Layout: Allows customization of card size and page layout.
--   Flexible Filtering: Filter songs by date added, language, and more.
 
 ## ⚙️ Prerequisites
 
